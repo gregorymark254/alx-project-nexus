@@ -3,6 +3,8 @@ from django.urls import path, include
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework.permissions import AllowAny
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -14,7 +16,14 @@ schema_view = get_schema_view(
     permission_classes=[AllowAny],
 )
 
+
+@api_view(['GET'])
+def home(request):
+    return Response({"message": "Welcome to the e-commerce backend API!"})
+
+
 urlpatterns = [
+    path('', home, name='home'),
     path('admin/', admin.site.urls),
     path('auth/', include('users.urls')),
     path('api/', include('products.urls')),
